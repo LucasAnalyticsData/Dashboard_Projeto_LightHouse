@@ -56,14 +56,27 @@ st.markdown(
 
 
 # =============================================================================
-# CONEXÃO POSTGRESQL
+# CONEXÃO POSTGRESQL / SUPABASE
 # =============================================================================
 
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = int(os.getenv("DB_PORT", "5432"))
-DB_NAME = os.getenv("DB_NAME", "erp_analytics")
-DB_USER = os.getenv("DB_USER", "postgres")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "postgres123")
+# Se o aplicativo estiver no Streamlit Cloud, utiliza os Secrets configurados
+# nas configurações do aplicativo.
+if "DB_HOST" in st.secrets:
+
+    DB_HOST = st.secrets["DB_HOST"]
+    DB_PORT = int(st.secrets["DB_PORT"])
+    DB_NAME = st.secrets["DB_NAME"]
+    DB_USER = st.secrets["DB_USER"]
+    DB_PASSWORD = st.secrets["DB_PASSWORD"]
+
+# Caso contrário, mantém compatibilidade com a execução local.
+else:
+
+    DB_HOST = os.getenv("DB_HOST", "localhost")
+    DB_PORT = int(os.getenv("DB_PORT", "5432"))
+    DB_NAME = os.getenv("DB_NAME", "erp_analytics")
+    DB_USER = os.getenv("DB_USER", "postgres")
+    DB_PASSWORD = os.getenv("DB_PASSWORD", "postgres123")
 
 
 @st.cache_resource
